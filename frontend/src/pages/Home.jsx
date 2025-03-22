@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { isValidElement, useState } from 'react'
 import Outputs from './Outputs';
 
 function Home() {
@@ -8,6 +8,18 @@ const [file2, setFile2] = useState(null)
 const [file3, setFile3] = useState(null)
 
 const [submitted, setSubmitted] = useState(false)
+
+function validateCSV(file) {
+  if (!file) return false;
+  const validMimeType = file.type === "text/csv";
+  const validExtension = file.name.toLowerCase().endsWith(".csv");
+
+  if (!validMimeType && !validExtension) {
+    alert(`Invalid file: ${file.name}. Please upload a CSV file.`);
+    return false;
+  }
+  return true;
+}
 
 
 async function handleSubmit(e){
@@ -22,6 +34,9 @@ async function handleSubmit(e){
     return alert("Please upload all files") 
   }
 
+  if (!validateCSV(file1)) {
+    return alert("CSV file required")
+  }
 
   formdata.append('file1', file1)
   // formdata.append('file2',file2)
