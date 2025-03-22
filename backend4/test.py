@@ -4,16 +4,16 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, confusion_matrix
 
 def Predict_Data(filename):
-    # 🔹 Load the synthetic dataset
+    #Load the synthetic dataset
     synthetic_df = pd.read_csv(filename)  # Ensure the file exists
 
-    # 🔹 Drop Unnecessary Columns
-    synthetic_df.drop(columns=['step', 'nameOrg', 'nameDest'], errors='ignore', inplace=True)
+    #Drop Unnecessary Columns
+    synthetic_df.drop(columns=['step', 'nameOrig', 'nameDest'], errors='ignore', inplace=True)
 
-    # 🔹 Encode Categorical Columns (Transaction Type)
+    #Encode Categorical Columns (Transaction Type)
     synthetic_df['type'] = LabelEncoder().fit_transform(synthetic_df['type'])
 
-    # 🔹 Feature Engineering (Balance Changes)
+    #Feature Engineering (Balance Changes)
     synthetic_df['balancechange'] = synthetic_df['oldbalanceOrg'] - synthetic_df['newbalanceOrg']
     synthetic_df['destbalancechange'] = synthetic_df['oldbalanceDest'] - synthetic_df['newbalanceDest']
 
