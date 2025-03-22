@@ -1,3 +1,4 @@
 # Ignore all .innovathonenv directories
 .innovathonenv/
 .innovathonenv2/*
+__pycache__/*

@@ -8,7 +8,7 @@ def Predict_Data(filename):
     synthetic_df = pd.read_csv(filename)  # Ensure the file exists
 
     # 🔹 Drop Unnecessary Columns
-    synthetic_df.drop(columns=['step', 'nameOrig', 'nameDest'], errors='ignore', inplace=True)
+    synthetic_df.drop(columns=['step', 'nameOrg', 'nameDest'], errors='ignore', inplace=True)
 
     # 🔹 Encode Categorical Columns (Transaction Type)
     synthetic_df['type'] = LabelEncoder().fit_transform(synthetic_df['type'])
