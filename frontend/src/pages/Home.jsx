@@ -4,10 +4,11 @@ import Outputs from './Outputs';
 function Home() {
 
 const [file1, setFile1] = useState(null)
-const [file2, setFile2] = useState(null)
-const [file3, setFile3] = useState(null)
-
 const [submitted, setSubmitted] = useState(false)
+const [fraudData, setFraudData] = useState(null)
+const [totalTransactions, setTotalTransactions] = useState(0)
+const [fraudulentTransactions, setFraudulentTransactions] = useState(0)
+const [fraudPercentage, setFraudPercentage] = useState(0)
 
 function validateCSV(file) {
   if (!file) return false;
@@ -47,11 +48,17 @@ async function handleSubmit(e){
     body : formdata
   })
   const data = await r1.json()
-
-  console.log(data);
+  setFraudData(data.data)
   
-    
-console.log(file1);
+  // Calculate statistics
+  if (data.data && data.data.predictions) {
+    const predictions = data.data.predictions
+    setTotalTransactions(predictions.length)
+    const fraudCount = predictions.filter(p => p.predicted_isFraud === 1).length
+    setFraudulentTransactions(fraudCount)
+    setFraudPercentage(((fraudCount / predictions.length) * 100).toFixed(1))
+  }
+  
   setSubmitted(true)
 }
 
@@ -75,13 +82,16 @@ console.log(file1);
     
     <span className='detailstopcontainer'>
         <div className='detailstop'>
-          <p>78</p>
+          <p>{totalTransactions}</p>
+          <h4>Total Transactions</h4>
         </div>
         <div className='detailstop'>
-          <p>78</p>
+          <p>{fraudulentTransactions}</p>
+          <h4>Fraudulent Transactions</h4>
         </div>
         <div className='detailstop'>
-          <p>78</p>
+          <p>{fraudPercentage}%</p>
+          <h4>Fraud Percentage</h4>
         </div>
 
     </span>
@@ -99,7 +109,7 @@ console.log(file1);
 
       </div>
 
-      <Outputs/>
+      <Outputs fraudData={fraudData}/>
     </div>
 
     <div className="lastrow">
