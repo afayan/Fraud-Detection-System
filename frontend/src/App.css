@@ -1,0 +1,11 @@
+.detailsform{
+  display: flex;
+  flex-direction: column;
+  background-color: grey;
+  gap: 10px;
+  padding: 10px;
+}
+
+.detailsform input{
+  padding: 10px;
+}
