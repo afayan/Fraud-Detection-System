@@ -14,14 +14,18 @@ async function handleSubmit(e){
 
   const formdata = new FormData()
 
-  if (!file1 || !file2 || !file3) {
-    return alert("Please upload all files")
+  // if (!file1 || !file2 || !file3) {
+  //   return alert("Please upload all files")
+  // }
+
+  if (!file1) {
+    return alert("Please upload all files") 
   }
 
 
   formdata.append('file1', file1)
-  formdata.append('file2',file2)
-  formdata.append('file3',file3)
+  // formdata.append('file2',file2)
+  // formdata.append('file3',file3)
 
   const r1 = await fetch('/api/upload', {
     method : 'POST',
