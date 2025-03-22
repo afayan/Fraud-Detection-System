@@ -1,2 +1,3 @@
 # Ignore all .innovathonenv directories
 .innovathonenv/
+.innovathonenv2/*

@@ -1,6 +1,6 @@
 import pandas as pd
 import joblib
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, confusion_matrix
 
 def Predict_Data(filename):
@@ -17,35 +17,46 @@ def Predict_Data(filename):
     synthetic_df['balancechange'] = synthetic_df['oldbalanceOrg'] - synthetic_df['newbalanceOrg']
     synthetic_df['destbalancechange'] = synthetic_df['oldbalanceDest'] - synthetic_df['newbalanceDest']
 
-    # 🔹 Define Features & Target
-    X_synthetic = synthetic_df.drop(columns=['isFraud', 'isFlaggedFraud'], errors='ignore')
-    y_synthetic = synthetic_df['isFraud']
+    # 🔹 Define Features
+    X_synthetic = synthetic_df  # Features for prediction
 
     # 🔹 Load the Saved Model
-    xgb_model = joblib.load("fraud_detection_model.pkl")
+    xgb_model = joblib.load("fraud_detection_model.pkl")  # Ensure the model file exists
 
-    # 🔹 Standardize Data (Using Same Scaling Process)
-    scaler = StandardScaler()
-    X_synthetic = scaler.fit_transform(X_synthetic)  # Note: Use same scaler used in training
+    # 🔹 Make Predictions (No Scaling)
+    y_pred_fraud = xgb_model.predict(X_synthetic)  # Predict isFraud
+    y_pred_flagged = xgb_model.predict(X_synthetic)  # Predict isFlaggedFraud (if applicable)
 
-    # 🔹 Make Predictions
-    y_pred_synthetic = xgb_model.predict(X_synthetic)
+    # 🔹 Add Predictions to Original DataFrame
+    synthetic_df['predicted_isFraud'] = y_pred_fraud
+    synthetic_df['predicted_isFlaggedFraud'] = y_pred_flagged
 
+    # 🔹 Evaluate Model (if ground truth is available)
+    results = {}
+    if 'isFraud' in synthetic_df.columns:
+        # Confusion Matrix and Classification Report for isFraud
+        results["confusion_matrix_isFraud"] = confusion_matrix(synthetic_df['isFraud'], y_pred_fraud).tolist()
+        results["classification_report_isFraud"] = classification_report(synthetic_df['isFraud'], y_pred_fraud, output_dict=True)
 
-    results = {
-        "confusion_matrix": confusion_matrix(y_synthetic, y_pred_synthetic).tolist(),
-        "classification_report": classification_report(y_synthetic, y_pred_synthetic, output_dict=True)
-    }
-    
-    # Add predictions to original dataframe and include in results
-    synthetic_df['predicted_fraud'] = y_pred_synthetic
+        # Print Evaluation Metrics
+        print("🔹 Confusion Matrix (isFraud):\n", confusion_matrix(synthetic_df['isFraud'], y_pred_fraud))
+        print("\n🔹 Classification Report (isFraud):\n", classification_report(synthetic_df['isFraud'], y_pred_fraud))
+
+    if 'isFlaggedFraud' in synthetic_df.columns:
+        # Confusion Matrix and Classification Report for isFlaggedFraud
+        results["confusion_matrix_isFlaggedFraud"] = confusion_matrix(synthetic_df['isFlaggedFraud'], y_pred_flagged).tolist()
+        results["classification_report_isFlaggedFraud"] = classification_report(synthetic_df['isFlaggedFraud'], y_pred_flagged, output_dict=True)
+
+        # Print Evaluation Metrics
+        print("\n🔹 Confusion Matrix (isFlaggedFraud):\n", confusion_matrix(synthetic_df['isFlaggedFraud'], y_pred_flagged))
+        print("\n🔹 Classification Report (isFlaggedFraud):\n", classification_report(synthetic_df['isFlaggedFraud'], y_pred_flagged))
+
+    # 🔹 Include Predictions in Results
     results["predictions"] = synthetic_df.to_dict(orient='records')
-    
+
     return results
 
-    # 🔹 Evaluate Model
-    print("🔹 Confusion Matrix:\n", confusion_matrix(y_synthetic, y_pred_synthetic))
-    print("\n🔹 Classification Report:\n", classification_report(y_synthetic, y_pred_synthetic))
 
-
-# Predict_Data("synthetic_fraud_data.csv")
+# Example Usage
+# results = Predict_Data("synthetic_fraud_data.csv")
+# print(results)
