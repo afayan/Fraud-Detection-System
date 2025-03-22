@@ -102,9 +102,15 @@ async function handleSubmit(e){
     <div className="middlerow">
 
       <div className='leftmiddle'>
+
+        <span >
+          <p>{totalTransactions} Total transactions</p>
+          <p>{fraudulentTransactions} Fraud transactions</p>
+        </span>
         
         <div className="circle">
-
+            <h1>{fraudPercentage}%</h1>
+            <p>Fraud percentage</p>
         </div>
 
       </div>
