@@ -58,35 +58,62 @@ console.log(file1);
 
   return (
     <>
-    
-    <div className="detailsform">
-        <input type="text" />
 
+    <div className='toprow'>
+    <div className="detailsform">
+
+  
         <span className='myspan'>
             <p>Balance sheet</p>
             <input type="file" onChange={(e)=>setFile1(e.target.files[0])}/>
         </span>
 
-        <span className='myspan'>
-            <p>Profit and Loss statement</p>
-            <input type="file" onChange={(e)=>setFile2(e.target.files[0])}/>
-        </span>
+        <button onClick={(e)=>handleSubmit(e)}>Submit</button>
+   
+    </div>
 
-        <span className='myspan'>
-            <p>Cash flow</p>
-            <input type="file" onChange={(e)=>setFile3(e.target.files[0])}/>
-        </span>
     
-    <button onClick={(e)=>handleSubmit(e)}>Submit</button>
+    <span className='detailstopcontainer'>
+        <div className='detailstop'>
+          <p>78</p>
+        </div>
+        <div className='detailstop'>
+          <p>78</p>
+        </div>
+        <div className='detailstop'>
+          <p>78</p>
+        </div>
+
+    </span>
+
+    </div>
+    
+
+    <div className="middlerow">
+
+      <div className='leftmiddle'>
+        
+        <div className="circle">
+
+        </div>
+
+      </div>
+
+      <Outputs/>
+    </div>
+
+    <div className="lastrow">
+      <h3>AI response</h3>
+      <p className="reply">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus reiciendis neque, corporis voluptatibus sunt officiis pariatur veniam dolorem ipsam tempora?</p>
     </div>
 
     {
-      submitted && 
-      <div className="outputs">
-        <Outputs/>
-        <Outputs/>
-        <Outputs/>
-      </div>
+      // submitted && 
+      // <div className="outputs">
+      //   <Outputs/>
+      //   <Outputs/>
+      //   <Outputs/>
+      // </div>
     }
     </>
   )

@@ -35,14 +35,14 @@ body {
   gap: 10px;
   padding: 10px;
 
-
 }
 
 .detailsform button{
-  width: 200px;
+  width: max-content;
   padding: 10px;
+  margin-left: 110px;
   border: none;
-
+  border-radius: 10px;
   background-color: var(--primary-color);
 }
 
@@ -52,9 +52,17 @@ body {
 
 
 .myspan{
-  
+  border-radius: 10px;
+
   background-color: var(--background-dark);
   padding: 10px;
+  width: max-content;
+}
+
+.myspan p{
+  padding-left: 10px;
+  margin-bottom: 0%;
+  text-align: center;
 }
 
 .chartsdiv{
@@ -72,4 +80,56 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+}
+
+.toprow{
+  display: flex;
+}
+
+.detailstopcontainer{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.detailstop{
+  height: 90%;
+  flex: 1;
+  margin: 10px;
+  background-color: var(--card-bg);
+}
+
+.detailstop p{
+  text-align: center;
+  height: max-content;
+  font-size: 3em;
+}
+
+.middlerow{
+  display: flex;
+  flex-direction: row;
+}
+
+.leftmiddle{
+  width: 200px;
+  padding: 80px;
+}
+
+.circle{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 12px solid var(--primary-color);
+}
+
+.reply{
+  background-color: var(--border-color);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.lastrow h3{
+  text-align: center;
 }

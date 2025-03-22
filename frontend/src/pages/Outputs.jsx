@@ -16,7 +16,7 @@ function Outputs({xaxis, yaxis}) {
 
   return (
     <div className="chartsdiv" style={{backgroundColor : 'rgba(62, 62, 62, 0.25)'}}>
-      <h2>Sales Chart</h2>
+      <h2>Fraud Detection</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />
