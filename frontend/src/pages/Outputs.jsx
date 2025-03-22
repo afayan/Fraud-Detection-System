@@ -24,7 +24,7 @@ function Outputs({xaxis, yaxis}) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="sales" stroke="#111111" strokeWidth={2} />
+          <Line type="monotone" dataKey="sales" stroke="var(--primary-color)" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </div>
