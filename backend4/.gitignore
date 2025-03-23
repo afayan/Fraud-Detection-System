@@ -2,3 +2,4 @@
 .innovathonenv/
 .innovathonenv2/*
 __pycache__/*
+.env

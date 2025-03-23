@@ -5,6 +5,9 @@ from flask import Flask, request, jsonify
 import os
 from test import *
 from test import Predict_Data
+from os import environ
+from google import genai
+
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
 app = Flask(__name__)
@@ -12,10 +15,18 @@ app = Flask(__name__)
 # The route() function of the Flask class is a decorator, 
 # which tells the application which URL should call 
 # the associated function.
+app.config.from_pyfile('settings.py')
+
+
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Create folder if it doesn't exist
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+GEMINI = environ.get('GEMINI')
+
+
+print(GEMINI)
 
 @app.route('/api/upload', methods=['POST'])
 def upload_files():
@@ -45,9 +56,20 @@ def upload_files():
 
         res = Predict_Data('uploads/'+saved_files[0])
 
-        
+        # print(GEMINI)
 
-        return jsonify({'message': 'Files uploaded successfully', 'files': saved_files, 'data' : res}), 200
+        
+        client = genai.Client(api_key=GEMINI)
+
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents="Explain how AI works",
+        )
+
+        print(response.text)
+   
+
+        return jsonify({'message': 'Files uploaded successfully', 'files': saved_files, 'data' : res, 'ai' : response.text}), 200
 
     except Exception as e:
         print(e)

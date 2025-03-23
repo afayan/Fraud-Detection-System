@@ -9,6 +9,7 @@ const [fraudData, setFraudData] = useState(null)
 const [totalTransactions, setTotalTransactions] = useState(0)
 const [fraudulentTransactions, setFraudulentTransactions] = useState(0)
 const [fraudPercentage, setFraudPercentage] = useState(0)
+const [AIresponse, setAIResp] = useState('')
 
 function validateCSV(file) {
   if (!file) return false;
@@ -57,6 +58,9 @@ async function handleSubmit(e){
     const fraudCount = predictions.filter(p => p.predicted_isFraud === 1).length
     setFraudulentTransactions(fraudCount)
     setFraudPercentage(((fraudCount / predictions.length) * 100).toFixed(1))
+
+
+    setAIResp(data?.ai)
   }
   
   setSubmitted(true)
@@ -120,7 +124,7 @@ async function handleSubmit(e){
 
     <div className="lastrow">
       <h3>AI response</h3>
-      <p className="reply">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus reiciendis neque, corporis voluptatibus sunt officiis pariatur veniam dolorem ipsam tempora?</p>
+      <p className="reply">{AIresponse}</p>
     </div>
 
     {
